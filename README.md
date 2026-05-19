@@ -1,6 +1,6 @@
 # Exercícios de POO em PHP — Introdução à Orientação a Objetos
 
-Três exercícios práticos para consolidar os fundamentos de Programação Orientada a Objetos em PHP: classes, objetos, atributos, métodos e interação entre objetos.
+Cinco exercícios práticos para consolidar os fundamentos de Programação Orientada a Objetos em PHP: classes, objetos, atributos, métodos e interação entre objetos.
 
 ---
 
@@ -144,14 +144,15 @@ Player está vivo
 
 | Conceito | Exercício |
 |---|---|
-| Classe e objeto (`new`) | 1, 2, 3 |
-| Atributos (`public`) | 1, 2, 3 |
-| Métodos (`function`) | 1, 2, 3 |
-| `$this` | 1, 2, 3 |
-| Parâmetros em métodos | 2, 3 |
+| Classe e objeto (`new`) | 1, 2, 3, 4, 5 |
+| Atributos (`public`) | 1, 2, 3, 4, 5 |
+| Métodos (`function`) | 1, 2, 3, 4, 5 |
+| `$this` | 1, 2, 3, 4, 5 |
+| Parâmetros em métodos | 2, 3, 4, 5 |
 | Métodos com retorno (`return`) | 1 |
-| Interação entre objetos | 3 |
-| Condicionais em métodos | 1, 2, 3 |
+| Interação entre objetos | 3, 4, 5 |
+| Condicionais em métodos | 1, 2, 3, 5 |
+| Gerenciamento de recursos (mana) | 5 |
 
 ---
 
@@ -269,3 +270,5 @@ Mana: 0
    - `http://localhost/intrucao_poo/index_exercicio1.php`
    - `http://localhost/intrucao_poo/index_exercicio2.php`
    - `http://localhost/intrucao_poo/index_exercicio3.php`
+   - `http://localhost/intrucao_poo/index_exercicio4.php`
+   - `http://localhost/intrucao_poo/index_exercicio5.php`
