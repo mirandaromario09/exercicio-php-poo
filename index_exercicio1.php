@@ -40,5 +40,3 @@ $bow->atacar();
 echo "DPS: " . $bow->mostrarDPS() . "<br>";
 
 $bow->ehCritco();
-
-

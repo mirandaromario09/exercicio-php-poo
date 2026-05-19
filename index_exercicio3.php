@@ -49,5 +49,3 @@ $player1->atacar($player2);
 $player2->mostrarVida();
 
 $player2->estaVivo();
-
-?>
