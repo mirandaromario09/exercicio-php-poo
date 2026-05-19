@@ -1,105 +1,163 @@
-# Introdução à POO em PHP
+# Exercícios de POO em PHP — Introdução à Orientação a Objetos
 
-Estudo prático de Programação Orientada a Objetos em PHP, do básico até um exemplo mais próximo do mundo real.
-
-Cada bloco é independente. Dá pra ir na ordem ou pular direto pro que interessar.
+Três exercícios práticos para consolidar os fundamentos de Programação Orientada a Objetos em PHP: classes, objetos, atributos, métodos e interação entre objetos.
 
 ---
 
-## Bloco 1 — Classe, Objeto, Visibilidade
-
-Uma classe é um molde. Um objeto é uma cópia desse molde com valores próprios.
-
-A classe `Usuario` tem:
-- **Atributos públicos** (`$nome`, `$email`) — qualquer um pode acessar
-- **Atributo privado** (`$senha`) — só a própria classe enxerga
-- **Construtor** — roda automaticamente quando usamos `new`
-- **Método privado** (`verificarSenha()`) — uso interno
-- **Método público** (`login()`) — expõe uma operação sem vazar a senha
-
-Se tentar acessar `$user->senha` ou `$user->verificarSenha('x')` diretamente, o PHP lança erro. Isso é **encapsulamento**: o objeto controla o que expõe.
-
-## Bloco 2 — Encapsulamento com Getters e Setters
-
-Nem sempre queremos expor propriedades diretamente. Usamos getters e setters pra ter controle.
-
-A classe `Produto` mostra:
-- `getNome()` / `getPreco()` — leitura controlada
-- `setPreco()` — validação na escrita (impede preço negativo)
-- `aplicarDesconto()` — regra de negócio dentro do próprio objeto
-
-Se tentar `$p->preco = -50`, não funciona (é private). Se tentar `$p->setPreco(-10)`, lança exceção.
-
-## Bloco 3 — Herança
-
-Uma classe pode estender outra, herdando métodos e propriedades. Reaproveitamento de código.
+## Estrutura
 
 ```
-Funcionario (nome, salarioBase, calcularSalario())
-  ├── Desenvolvedor (ganha bônus por linguagem)
-  └── Designer (salário fixo)
+├── index_exercicio1.php   # Classe Bow — atributos e métodos simples
+├── index_exercicio2.php   # Classe Player — métodos com parâmetros
+├── index_exercicio3.php   # Classe Player — interação entre objetos
+└── README.md
 ```
-
-- `protected` permite que as filhas enxerguem o atributo, mas continua escondido de fora
-- `parent::__construct()` chama o construtor da classe pai
-- Os métodos `getCargo()` e `calcularSalario()` são **sobrescritos** em cada filha
-
-## Bloco 4 — Classes Abstratas
-
-Uma classe abstrata não pode ser instanciada diretamente. Serve como contrato: define o que as filhas **devem** implementar.
-
-A classe `Pagamento` define:
-- `getValor()` — método concreto, compartilhado por todas as formas de pagamento
-- `processar()` — abstrato, cada forma implementa do seu jeito
-- `taxa()` — abstrato, cartão cobra 3%, boleto é zero
-
-`new Pagamento(100)` dá erro — não faz sentido instanciar "pagamento" genérico.
-
-## Bloco 5 — Polimorfismo
-
-Polimorfismo = "muitas formas". Um mesmo método se comporta diferente dependendo do objeto.
-
-A interface `Notificavel` define o contrato `enviar()`. Três classes implementam:
-- `EmailNotificacao` — envia e-mail
-- `SMSNotificacao` — envia SMS
-- `PushNotificacao` — envia push notification
-
-A função `dispararAlerta()` não liga pra **qual** canal é. Ela só chama `enviar()`. Cada implementação faz sua parte. Isso é polimorfismo na prática.
-
-## Bloco 6 — Traits
-
-Traits são como "copiar e colar" métodos entre classes que não compartilham a mesma hierarquia. Úteis pra não repetir código.
-
-A trait `Logavel` define `log()`. As classes `Pedido` e `Fatura` usam `use Logavel` e ganham o método automaticamente, sem precisar estender uma classe em comum.
-
-## Bloco 7 — Métodos e Propriedades Estáticos
-
-`static` pertence à classe, não ao objeto. Útil pra contadores, helpers, configuração global, etc.
-
-A classe `Config` armazena pares chave/valor. Não precisa instanciar:
-
-```php
-Config::set('db.host', 'localhost');
-$host = Config::get('db.host');
-```
-
-## Bloco 8 — Exemplo Integrado
-
-Um mini-sistema de pedidos juntando vários conceitos:
-
-- `ItemPedido` — modelo simples com subtotal
-- `StatusPedido` — enum com os estados possíveis
-- `PedidoCompra` — classe principal que usa trait `Logavel`, propriedades estáticas (contador de IDs), validação de estado e formatação de resumo
 
 ---
 
-## Como rodar
+## Exercício 1 — Classe Bow
 
-```bash
-php index.php
+**Arquivo:** `index_exercicio1.php`
+
+Criação de uma classe com atributos e métodos básicos, sem interação com outros objetos.
+
+### Classe `Bow`
+
+| Atributo | Descrição |
+|---|---|
+| `$nomeBase` | Nome do arco |
+| `$physicalDamage` | Dano físico |
+| `$criticalChance` | Chance de crítico (0-100) |
+| `$attackSpeed` | Velocidade de ataque |
+
+| Método | Descrição |
+|---|---|
+| `atacar()` | Exibe o nome do arco seguido de "atacou" |
+| `mostrarDPS()` | Calcula e retorna `physicalDamage * attackSpeed` |
+| `ehCritco()` | Verifica se `criticalChance >= 5` e exibe "Alta chance de crítico!" ou "Baixa chance de crítico!" |
+
+### Exemplo de saída
+
+```
+Short Bow atacou
+DPS: 15
+Alta chance de crítico!
 ```
 
-Ou coloca no servidor web e acessa pelo navegador.
+### O que ensina
+
+- Declaração de classe e atributos
+- Diferença entre métodos que **exibem** (`echo`) e métodos que **retornam** (`return`)
+- Uso do `$this` para acessar atributos dentro da classe
 
 ---
 
+## Exercício 2 — Classe Player (versão simples)
+
+**Arquivo:** `index_exercicio2.php`
+
+Classe com métodos que recebem parâmetros e modificam os atributos do próprio objeto.
+
+### Classe `Player`
+
+| Atributo | Descrição |
+|---|---|
+| `$nome` | Nome do jogador |
+| `$vida` | Pontos de vida |
+| `$dano` | Dano causado |
+
+| Método | Descrição |
+|---|---|
+| `atacar()` | Exibe "Romário atacou causando 20 de dano" |
+| `receberDano($valor)` | Subtrai `$valor` da vida |
+| `mostrarVida()` | Exibe a vida atual |
+| `estaVivo()` | Verifica se `vida > 0` e exise "O player está vivo!" ou "O player morreu!" |
+
+### Exemplo de saída
+
+```
+Romário atacou causando 20 de dano
+A vida atual é: 70
+O player está vivo!
+```
+
+### O que ensina
+
+- Métodos que recebem parâmetros (`receberDano($valor)`)
+- Modificação de atributos internos do objeto
+- Condicionais (`if/else`) dentro de métodos
+
+---
+
+## Exercício 3 — Combate entre Players
+
+**Arquivo:** `index_exercicio3.php`
+
+Dois objetos da mesma classe interagem entre si — um player ataca o outro.
+
+### Classe `Player`
+
+| Atributo | Descrição |
+|---|---|
+| `$nome` | Nome do jogador |
+| `$vida` | Pontos de vida |
+| `$dano` | Dano causado por ataque |
+
+| Método | Descrição |
+|---|---|
+| `atacar($alvo)` | Exibe "X atacou Y causando Z de dano" e chama `$alvo->receberDano($this->dano)` |
+| `receberDano($valor)` | Subtrai `$valor` da vida |
+| `mostrarVida()` | Exibe a vida atual |
+| `estaVivo()` | Verifica se o player ainda está vivo |
+
+### Fluxo do ataque
+
+```
+$player1->atacar($player2)
+         │
+         ├─ echo "Romario atacou Zana causando 20 de dano"
+         │
+         └─ $player2->receberDano(20)
+                        │
+                        └─ $player2->vida = 80 - 20 = 60
+```
+
+### Exemplo de saída
+
+```
+Romario atacou Zana causando 20 de dano
+Vida atual: 60
+Player está vivo
+```
+
+### O que ensina
+
+- **Interação entre objetos**: um objeto chama métodos de outro objeto
+- `$this` vs `$alvo`: dentro de `atacar($alvo)`, `$this` é quem ataca e `$alvo` é quem recebe
+- Encadeamento de métodos: `atacar()` chama `receberDano()` do alvo
+
+---
+
+## Conceitos abordados
+
+| Conceito | Exercício |
+|---|---|
+| Classe e objeto (`new`) | 1, 2, 3 |
+| Atributos (`public`) | 1, 2, 3 |
+| Métodos (`function`) | 1, 2, 3 |
+| `$this` | 1, 2, 3 |
+| Parâmetros em métodos | 2, 3 |
+| Métodos com retorno (`return`) | 1 |
+| Interação entre objetos | 3 |
+| Condicionais em métodos | 1, 2, 3 |
+
+---
+
+## Como executar
+
+1. Coloque a pasta no `htdocs` do XAMPP
+2. Inicie o Apache
+3. Acesse no navegador:
+   - `http://localhost/intrucao_poo/index_exercicio1.php`
+   - `http://localhost/intrucao_poo/index_exercicio2.php`
+   - `http://localhost/intrucao_poo/index_exercicio3.php`
