@@ -2,11 +2,46 @@
 
 class Bow
 {
+    private $nomeBase;
+    private $physicalDamage;
+    private $criticalChance;
+    private $attackSpeed;
 
-    public $nomeBase;
-    public $physicalDamage;
-    public $criticalChance;
-    public $attackSpeed;
+    public function setNomeBase($nomeBase)
+    {
+        $this->nomeBase = $nomeBase;
+    }
+    public function getNomeBase()
+    {
+        return $this->nomeBase;
+    }
+
+    public function setPhysicalDamage($physicalDamage)
+    {
+        $this->physicalDamage = $physicalDamage;
+    }
+    public function getPhysicalDamage()
+    {
+        return $this->physicalDamage;
+    }
+
+    public function setCriticalChance($criticalChance)
+    {
+        $this->criticalChance = $criticalChance;
+    }
+    public function getCriticalChance()
+    {
+        return $this->criticalChance;
+    }
+
+    public function setAttackSpeed($attackSpeed)
+    {
+        $this->attackSpeed = $attackSpeed;
+    }
+    public function getAttackSpeed()
+    {
+        return $this->attackSpeed;
+    }
 
     public function atacar()
     {
@@ -30,10 +65,10 @@ class Bow
 
 $bow = new Bow();
 
-$bow->nomeBase = "Short Bow";
-$bow->physicalDamage = 10;
-$bow->criticalChance = 5;
-$bow->attackSpeed = 1.50;
+$bow->setNomeBase("Short Bow");
+$bow->setPhysicalDamage(10);
+$bow->setCriticalChance(5);
+$bow->setAttackSpeed(1.50);
 
 $bow->atacar();
 
